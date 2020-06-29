@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/DallasPop_1.js"></script>
+        <script src="data/DallasNSES_2.js"></script>
+        <script src="data/DallasParks_4.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[32.621448937123326,-97.10863349333016],[33.014216305360705,-96.4758480066696]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            map.setMaxBounds(map.getBounds());
+        }
+        map.createPane('pane_EsriGraydark_0');
+        map.getPane('pane_EsriGraydark_0').style.zIndex = 400;
+        var layer_EsriGraydark_0 = L.tileLayer('http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_EsriGraydark_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 16
+        });
+        layer_EsriGraydark_0;
+        map.addLayer(layer_EsriGraydark_0);
+        function pop_DallasPop_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEOID'] !== null ? autolinker.link(feature.properties['GEOID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ALAND'] !== null ? autolinker.link(feature.properties['ALAND'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AWATER'] !== null ? autolinker.link(feature.properties['AWATER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['State'] !== null ? autolinker.link(feature.properties['State'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['County'] !== null ? autolinker.link(feature.properties['County'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TotalPop'] !== null ? autolinker.link(feature.properties['TotalPop'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MalePop'] !== null ? autolinker.link(feature.properties['MalePop'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['M18to19'] !== null ? autolinker.link(feature.properties['M18to19'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['M20'] !== null ? autolinker.link(feature.properties['M20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['M21'] !== null ? autolinker.link(feature.properties['M21'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['M22to24'] !== null ? autolinker.link(feature.properties['M22to24'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['M25to29'] !== null ? autolinker.link(feature.properties['M25to29'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['M30to34'] !== null ? autolinker.link(feature.properties['M30to34'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['M35to39'] !== null ? autolinker.link(feature.properties['M35to39'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['F18to19'] !== null ? autolinker.link(feature.properties['F18to19'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['F20'] !== null ? autolinker.link(feature.properties['F20'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['F21'] !== null ? autolinker.link(feature.properties['F21'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['F22to24'] !== null ? autolinker.link(feature.properties['F22to24'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['F25to29'] !== null ? autolinker.link(feature.properties['F25to29'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['F30to34'] !== null ? autolinker.link(feature.properties['F30to34'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['F35to39'] !== null ? autolinker.link(feature.properties['F35to39'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape__Are'] !== null ? autolinker.link(feature.properties['Shape__Are'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape__Len'] !== null ? autolinker.link(feature.properties['Shape__Len'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TargetAgeT'] !== null ? autolinker.link(feature.properties['TargetAgeT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TargetRate'] !== null ? autolinker.link(feature.properties['TargetRate'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_DallasPop_1_0(feature) {
+            if (feature.properties['TargetRate'] >= 0.000000 && feature.properties['TargetRate'] <= 0.271000 ) {
+                return {
+                pane: 'pane_DallasPop_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.2)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,204,0.2)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['TargetRate'] >= 0.271000 && feature.properties['TargetRate'] <= 0.306000 ) {
+                return {
+                pane: 'pane_DallasPop_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.2)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(194,230,153,0.2)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['TargetRate'] >= 0.306000 && feature.properties['TargetRate'] <= 0.337800 ) {
+                return {
+                pane: 'pane_DallasPop_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.2)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(120,198,121,0.2)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['TargetRate'] >= 0.337800 && feature.properties['TargetRate'] <= 0.405200 ) {
+                return {
+                pane: 'pane_DallasPop_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.2)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(49,163,84,0.2)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['TargetRate'] >= 0.405200 && feature.properties['TargetRate'] <= 0.806000 ) {
+                return {
+                pane: 'pane_DallasPop_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.2)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,104,55,0.2)',
+                interactive: false,
+            }
+            }
+        }
+        map.createPane('pane_DallasPop_1');
+        map.getPane('pane_DallasPop_1').style.zIndex = 401;
+        map.getPane('pane_DallasPop_1').style['mix-blend-mode'] = 'normal';
+        var layer_DallasPop_1 = new L.geoJson(json_DallasPop_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_DallasPop_1',
+            layerName: 'layer_DallasPop_1',
+            pane: 'pane_DallasPop_1',
+            onEachFeature: pop_DallasPop_1,
+            style: style_DallasPop_1_0,
+        });
+        bounds_group.addLayer(layer_DallasPop_1);
+        map.addLayer(layer_DallasPop_1);
+        function pop_DallasNSES_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEOID10'] !== null ? autolinker.link(feature.properties['GEOID10'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME10'] !== null ? autolinker.link(feature.properties['NAME10'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STATE_NAME'] !== null ? autolinker.link(feature.properties['STATE_NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ST_ABBREV'] !== null ? autolinker.link(feature.properties['ST_ABBREV'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['STATE'] !== null ? autolinker.link(feature.properties['STATE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COUNTY'] !== null ? autolinker.link(feature.properties['COUNTY'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TRACT'] !== null ? autolinker.link(feature.properties['TRACT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEO_id'] !== null ? autolinker.link(feature.properties['GEO_id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEO_displa'] !== null ? autolinker.link(feature.properties['GEO_displa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HS_grad'] !== null ? autolinker.link(feature.properties['HS_grad'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BA_holder'] !== null ? autolinker.link(feature.properties['BA_holder'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FFH'] !== null ? autolinker.link(feature.properties['FFH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['medinc'] !== null ? autolinker.link(feature.properties['medinc'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Poverty'] !== null ? autolinker.link(feature.properties['Poverty'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['unemp_rate'] !== null ? autolinker.link(feature.properties['unemp_rate'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fips'] !== null ? autolinker.link(feature.properties['fips'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NSES_NSES'] !== null ? autolinker.link(feature.properties['NSES_NSES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_DallasNSES_2_0(feature) {
+            if (feature.properties['NSES_NSES'] >= 12.802361 && feature.properties['NSES_NSES'] <= 30.398962 ) {
+                return {
+                pane: 'pane_DallasNSES_2',
+                opacity: 1,
+                color: 'rgba(0,186,90,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,0.0)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['NSES_NSES'] >= 30.398962 && feature.properties['NSES_NSES'] <= 39.136601 ) {
+                return {
+                pane: 'pane_DallasNSES_2',
+                opacity: 1,
+                color: 'rgba(145,255,49,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,191,191,0.0)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['NSES_NSES'] >= 39.136601 && feature.properties['NSES_NSES'] <= 51.420115 ) {
+                return {
+                pane: 'pane_DallasNSES_2',
+                opacity: 1,
+                color: 'rgba(255,251,1,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,128,128,0.0)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['NSES_NSES'] >= 51.420115 && feature.properties['NSES_NSES'] <= 68.221282 ) {
+                return {
+                pane: 'pane_DallasNSES_2',
+                opacity: 1,
+                color: 'rgba(255,197,37,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,64,64,0.0)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['NSES_NSES'] >= 68.221282 && feature.properties['NSES_NSES'] <= 87.464963 ) {
+                return {
+                pane: 'pane_DallasNSES_2',
+                opacity: 1,
+                color: 'rgba(246,18,22,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,0.0)',
+                interactive: false,
+            }
+            }
+        }
+        map.createPane('pane_DallasNSES_2');
+        map.getPane('pane_DallasNSES_2').style.zIndex = 402;
+        map.getPane('pane_DallasNSES_2').style['mix-blend-mode'] = 'normal';
+        var layer_DallasNSES_2 = new L.geoJson(json_DallasNSES_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_DallasNSES_2',
+            layerName: 'layer_DallasNSES_2',
+            pane: 'pane_DallasNSES_2',
+            onEachFeature: pop_DallasNSES_2,
+            style: style_DallasNSES_2_0,
+        });
+        bounds_group.addLayer(layer_DallasNSES_2);
+        map.addLayer(layer_DallasNSES_2);
+        map.createPane('pane_EsriBoundariesPlaces_3');
+        map.getPane('pane_EsriBoundariesPlaces_3').style.zIndex = 403;
+        var layer_EsriBoundariesPlaces_3 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_EsriBoundariesPlaces_3',
+            opacity: 0.75,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_EsriBoundariesPlaces_3;
+        map.addLayer(layer_EsriBoundariesPlaces_3);
+        function pop_DallasParks_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Latitude'] !== null ? autolinker.link(feature.properties['Latitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Longitude'] !== null ? autolinker.link(feature.properties['Longitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Soccer'] !== null ? autolinker.link(feature.properties['Soccer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Football'] !== null ? autolinker.link(feature.properties['Football'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Baseball/Softball'] !== null ? autolinker.link(feature.properties['Baseball/Softball'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Basketball'] !== null ? autolinker.link(feature.properties['Basketball'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_DallasParks_4_0() {
+            return {
+                pane: 'pane_DallasParks_4',
+                shape: 'triangle',
+                radius: 3.5999999999999988,
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(21,0,50,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_DallasParks_4');
+        map.getPane('pane_DallasParks_4').style.zIndex = 404;
+        map.getPane('pane_DallasParks_4').style['mix-blend-mode'] = 'normal';
+        var layer_DallasParks_4 = new L.geoJson(json_DallasParks_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_DallasParks_4',
+            layerName: 'layer_DallasParks_4',
+            pane: 'pane_DallasParks_4',
+            onEachFeature: pop_DallasParks_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_DallasParks_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_DallasParks_4);
+        map.addLayer(layer_DallasParks_4);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/DallasParks_4.png" /> Dallas Parks': layer_DallasParks_4,"Esri Boundaries Places": layer_EsriBoundariesPlaces_3,'DallasNSES<br /><table><tr><td style="text-align: center;"><img src="legend/DallasNSES_2_1283040.png" /></td><td>12.8 - 30.4</td></tr><tr><td style="text-align: center;"><img src="legend/DallasNSES_2_3043911.png" /></td><td>30.4 - 39.1</td></tr><tr><td style="text-align: center;"><img src="legend/DallasNSES_2_3915142.png" /></td><td>39.1 - 51.4</td></tr><tr><td style="text-align: center;"><img src="legend/DallasNSES_2_5146823.png" /></td><td>51.4 - 68.2</td></tr><tr><td style="text-align: center;"><img src="legend/DallasNSES_2_6828754.png" /></td><td>68.2 - 87.5</td></tr></table>': layer_DallasNSES_2,'DallasPop<br /><table><tr><td style="text-align: center;"><img src="legend/DallasPop_1_002710.png" /></td><td>0 - 0.271</td></tr><tr><td style="text-align: center;"><img src="legend/DallasPop_1_027103061.png" /></td><td>0.271 - 0.306</td></tr><tr><td style="text-align: center;"><img src="legend/DallasPop_1_030603382.png" /></td><td>0.306 - 0.338</td></tr><tr><td style="text-align: center;"><img src="legend/DallasPop_1_033804053.png" /></td><td>0.338 - 0.405</td></tr><tr><td style="text-align: center;"><img src="legend/DallasPop_1_040508064.png" /></td><td>0.405 - 0.806</td></tr></table>': layer_DallasPop_1,"Esri Gray (dark)": layer_EsriGraydark_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
